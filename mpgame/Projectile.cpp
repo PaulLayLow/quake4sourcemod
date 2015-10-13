@@ -350,7 +350,9 @@ void idProjectile::Launch( const idVec3 &start, const idVec3 &dir, const idVec3 
  	} 
 
 	// Set the damage
+
 	damagePower = dmgPower;
+	markedForDeath = true;
 
 	if ( !spawnArgs.GetFloat( "speed", "0", temp ) ) {
 		spawnArgs.GetVector( "velocity", "0 0 0", tmp );
@@ -795,6 +797,8 @@ bool idProjectile::Collide( const trace_t &collision, const idVec3 &velocity, bo
 	}
 // RAVEN END
  
+
+	ent->Poison(poisonDmg);
 	//Spawn any impact entities if necessary.
 	SpawnImpactEntities(collision, velocity);
 

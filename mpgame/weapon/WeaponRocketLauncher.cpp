@@ -30,6 +30,9 @@ public:
 	virtual bool		AllowAutoAim			( void ) const { return false; }
 #endif
 
+public:
+	bool					markedForDeath;
+
 protected:
 
 	virtual void			OnLaunchProjectile	( idProjectile* proj );
@@ -102,7 +105,7 @@ void rvWeaponRocketLauncher::Spawn ( void ) {
 	attackDict.GetFloat ( "speed", "0", guideSpeedFast );
 	guideSpeedSlow = guideSpeedFast * f;
 	
-	reloadRate = SEC2MS ( spawnArgs.GetFloat ( "reloadRate", ".8" ) );
+	reloadRate = SEC2MS ( spawnArgs.GetFloat ( "reloadRate", ".3" ) ); // was .8
 	
 	guideAccelTime = SEC2MS ( spawnArgs.GetFloat ( "lockAccelTime", ".25" ) );
 	
@@ -117,14 +120,14 @@ void rvWeaponRocketLauncher::Spawn ( void ) {
 	animNum = viewModel->GetAnimator()->GetAnim ( "reload" );
 	if ( animNum ) {
 		anim = (idAnim*)viewModel->GetAnimator()->GetAnim ( animNum );
-		rate = (float)anim->Length() / (float)SEC2MS(spawnArgs.GetFloat ( "reloadRate", ".8" ));
+		rate = (float)anim->Length() / (float)SEC2MS(spawnArgs.GetFloat ( "reloadRate", ".3" )); // was .8
 		anim->SetPlaybackRate ( rate );
 	}
 
 	animNum = viewModel->GetAnimator()->GetAnim ( "reload_empty" );
 	if ( animNum ) {
 		anim = (idAnim*)viewModel->GetAnimator()->GetAnim ( animNum );
-		rate = (float)anim->Length() / (float)SEC2MS(spawnArgs.GetFloat ( "reloadRate", ".8" ));
+		rate = (float)anim->Length() / (float)SEC2MS(spawnArgs.GetFloat ( "reloadRate", ".3" )); // was .8
 		anim->SetPlaybackRate ( rate );
 	}
 
@@ -214,10 +217,15 @@ void rvWeaponRocketLauncher::OnLaunchProjectile ( idProjectile* proj ) {
 	rvWeapon::OnLaunchProjectile(proj);
 
 	// Double check that its actually a guided projectile
+	//Made it into a homing projectile
+	/*
 	if ( !proj || !proj->IsType ( idGuidedProjectile::GetClassType() ) ) {
 		return;
 	}
-
+	*/
+	if ( proj || proj->IsType ( idGuidedProjectile::GetClassType() ) ) {
+		return;
+	}
 	// Launch the projectile
 	idEntityPtr<idEntity> ptr;
 	ptr = proj;
@@ -445,7 +453,11 @@ stateResult_t rvWeaponRocketLauncher::State_Fire ( const stateParms_t& parms ) {
 	};	
 	switch ( parms.stage ) {
 		case STAGE_INIT:
-			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));		
+			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+			if (markedForDeath){
+				Attack ( false, 1, spread, 0, 4.0f );
+				common->Printf("marked");
+			}
 			Attack ( false, 1, spread, 0, 1.0f );
 			PlayAnim ( ANIMCHANNEL_LEGS, "fire", parms.blendFrames );	
 			return SRESULT_STAGE ( STAGE_WAIT );

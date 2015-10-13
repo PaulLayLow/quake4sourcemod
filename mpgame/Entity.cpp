@@ -3688,6 +3688,7 @@ bool idEntity::SkipImpulse( idEntity *ent, int id ) {
 	return false;//ent == this;
 }
 
+
 /*
 ============
 idEntity::ApplyImpulse

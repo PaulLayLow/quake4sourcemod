@@ -1,5 +1,6 @@
 #include "../../idlib/precompiled.h"
 #pragma hdrstop
+#include <cstdlib>
 
 #include "../Game_local.h"
 #include "../Weapon.h"
@@ -285,7 +286,17 @@ void rvWeaponGauntlet::Attack ( void ) {
 			if ( ent->fl.takedamage ) {
 				float dmgScale = 1.0f;
 				dmgScale *= owner->PowerUpModifier( PMOD_MELEE_DAMAGE );
-				ent->Damage ( owner, owner, playerViewAxis[0], spawnArgs.GetString ( "def_damage" ), dmgScale, 0 );
+				// Added crits
+				int randCrits = rand() % 10 +1;
+				if (randCrits == 1)
+				{
+					ent->Damage(owner, owner, playerViewAxis[0], "150", dmgScale, 0);
+				}
+				else
+				{
+					ent->Damage(owner, owner, playerViewAxis[0], spawnArgs.GetString("def_damage"), dmgScale, 0);
+				}
+				// End of crits
 				StartSound( "snd_hit", SND_CHANNEL_ANY, 0, false, NULL );
 				if ( ent->spawnArgs.GetBool( "bleed" ) ) {
 					PlayLoopSound( LOOP_FLESH );

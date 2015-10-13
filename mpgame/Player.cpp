@@ -9069,7 +9069,7 @@ void idPlayer::Move( void ) {
 		loggedAccel_t	*acc = &loggedAccel[currentLoggedAccel&(NUM_LOGGED_ACCELS-1)];
 		currentLoggedAccel++;
 		acc->time = gameLocal.time;
-		acc->dir[2] = 200;
+		acc->dir[2] = 2000;
 		acc->dir[0] = acc->dir[1] = 0;
 
 		// PMF_JUMP can get stuck when dead, which causes some bad spamming

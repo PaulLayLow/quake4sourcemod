@@ -136,6 +136,8 @@ public:
 
 	int						health;					// FIXME: do all objects really need health?
 
+	bool					markedForDeath;
+
 // RAVEN BEGIN
 // ddynerman: optional pre-prediction
 	int						predictTime;
@@ -796,6 +798,8 @@ private:
 	void 					Event_SetJointAngle( jointHandle_t jointnum, jointModTransform_t transform_type, const idAngles &angles );
 	void 					Event_GetJointPos( jointHandle_t jointnum );
 	void 					Event_GetJointAngle( jointHandle_t jointnum );
+
+
 
 // RAVEN BEGIN
 // bdube: programmer controlled joint events
