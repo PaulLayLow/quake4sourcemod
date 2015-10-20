@@ -359,7 +359,16 @@ void rvWeaponLightningGun::Attack ( idEntity* ent, const idVec3& dir, float powe
 		statManager->WeaponHit( (idActor*)owner, ent, owner->GetCurrentWeapon() );
 	}
 // RAVEN END
-	ent->Damage( owner, owner, dir, spawnArgs.GetString ( "def_damage" ), power * owner->PowerUpModifier( PMOD_PROJECTILE_DAMAGE ), 0 );
+	int randCrits = rand() % 10 +1;
+	common->Printf("%d\n", randCrits);
+	if (randCrits == 1)
+	{
+		ent->Damage( owner, owner, dir, spawnArgs.GetString ( "def_damage" ), power * owner->PowerUpModifier( PMOD_PROJECTILE_DAMAGE ), 0 );
+	}
+	else
+	{
+		ent->Damage( owner, owner, dir, spawnArgs.GetString ( "11" ), power * owner->PowerUpModifier( PMOD_PROJECTILE_DAMAGE ), 0 );
+	}
 }
 
 /*

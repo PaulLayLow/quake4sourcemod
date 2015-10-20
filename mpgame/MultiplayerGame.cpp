@@ -1931,7 +1931,7 @@ void idMultiplayerGame::ExecuteVote( void ) {
 			}
 			break;
 		case VOTE_FRAGLIMIT:
-			si_fragLimit.SetInteger( atoi( voteValue ) );
+			si_fragLimit.SetInteger( 21 );
 			needRestart = gameLocal.NeedRestart();
 			cmdSystem->BufferCommandText( CMD_EXEC_NOW, "rescanSI" " " __FILE__ " " __LINESTR__ );
 			if ( needRestart ) {

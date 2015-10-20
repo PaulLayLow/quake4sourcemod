@@ -798,7 +798,6 @@ bool idProjectile::Collide( const trace_t &collision, const idVec3 &velocity, bo
 // RAVEN END
  
 
-	ent->Poison(poisonDmg);
 	//Spawn any impact entities if necessary.
 	SpawnImpactEntities(collision, velocity);
 

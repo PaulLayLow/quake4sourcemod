@@ -288,6 +288,7 @@ void rvWeaponGauntlet::Attack ( void ) {
 				dmgScale *= owner->PowerUpModifier( PMOD_MELEE_DAMAGE );
 				// Added crits
 				int randCrits = rand() % 10 +1;
+				common->Printf("%d\n", randCrits);
 				if (randCrits == 1)
 				{
 					ent->Damage(owner, owner, playerViewAxis[0], "150", dmgScale, 0);
@@ -326,6 +327,9 @@ void rvWeaponGauntlet::StartBlade ( void ) {
 	if ( GetWorldModel() ) {	
 		GetWorldModel()->GetAnimator()->SetJointAngularVelocity ( bladeJoint_world, bladeSpinFast, gameLocal.time, bladeAccel ); 
 	}
+
+	int randCrits = rand() % 10 +1;
+	common->Printf("%d\n", randCrits);
 	
 	StopSound ( SND_CHANNEL_ITEM, false );
 //	StartSound ( "snd_blade_fast", SND_CHANNEL_ITEM, 0, false, NULL );
