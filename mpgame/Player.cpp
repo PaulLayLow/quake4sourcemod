@@ -68,7 +68,7 @@ const int	AMMO_REGEN_PULSE	= 1000;			// ammo regen in Arena CTF
 const int	POWERUP_BLINKS		= 5;			// Number of times the powerup wear off sound plays
 const int	POWERUP_BLINK_TIME	= 1000;			// Time between powerup wear off sounds
 const float MIN_BOB_SPEED		= 5.0f;			// minimum speed to bob and play run/walk animations at
-const int	MAX_RESPAWN_TIME	= 10000;
+const int	MAX_RESPAWN_TIME	= 2;        // was 10000
 const int	RAGDOLL_DEATH_TIME	= 3000;
 #ifdef _XENON
 	const int	RAGDOLL_DEATH_TIME_XEN_SP	= 1000;
@@ -1136,8 +1136,8 @@ idPlayer::idPlayer() {
 	forcedReady				= false;
 	wantSpectate			= false;
 
-	minRespawnTime			= 0;
-	maxRespawnTime			= 0;
+	minRespawnTime			= 1; // was something else
+	maxRespawnTime			= 2 ; // was something else
 
 	firstPersonViewOrigin	= vec3_zero;
 	firstPersonViewAxis		= mat3_identity;
@@ -9733,10 +9733,10 @@ void idPlayer::Kill( bool delayRespawn, bool nodamage ) {
 		} else {
 			Damage( this, this, vec3_origin, "damage_suicide", 1.0f, INVALID_JOINT );
 			if ( delayRespawn ) {
-				forceRespawn = false;
+				forceRespawn = true; // was false
 				int delay = spawnArgs.GetFloat( "respawn_delay" );
 				minRespawnTime = gameLocal.time + SEC2MS( delay );
-				maxRespawnTime = minRespawnTime + MAX_RESPAWN_TIME;
+				maxRespawnTime = maxRespawnTime + MAX_RESPAWN_TIME;
  			}
  		}
 	}
